@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" 
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
+              name="sales_report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    <queryString>
+        <![CDATA[SELECT sale_id, total_amount, sale_date FROM sales ORDER BY sale_id DESC]]>
+    </queryString>
+    <field name="sale_id" class="java.lang.Integer"/>
+    <field name="total_amount" class="java.lang.Double"/>
+    <field name="sale_date" class="java.sql.Timestamp"/>
+    <title>
+        <band height="50">
+            <staticText>
+                <reportElement x="0" y="10" width="555" height="30"/>
+                <textElement textAlignment="Center">
+                    <font size="20" isBold="true"/>
+                </textElement>
+                <text><![CDATA[QuickMart POS - Sales Statement]]></text>
+            </staticText>
+        </band>
+    </title>
+    <columnHeader>
+        <band height="30">
+            <staticText>
+                <reportElement x="0" y="0" width="180" height="20"/>
+                <textElement><font isBold="true"/></textElement>
+                <text><![CDATA[Sale ID]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="180" y="0" width="180" height="20"/>
+                <textElement><font isBold="true"/></textElement>
+                <text><![CDATA[Total Amount]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="360" y="0" width="195" height="20"/>
+                <textElement><font isBold="true"/></textElement>
+                <text><![CDATA[Date & Time]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="25">
+            <textField>
+                <reportElement x="0" y="0" width="180" height="20"/>
+                <textFieldExpression><![CDATA[$F{sale_id}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="180" y="0" width="180" height="20"/>
+                <textFieldExpression><![CDATA[$F{total_amount}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="360" y="0" width="195" height="20"/>
+                <textFieldExpression><![CDATA[$F{sale_date}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+</jasperReport>

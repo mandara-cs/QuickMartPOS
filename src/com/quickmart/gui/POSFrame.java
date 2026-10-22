@@ -1,66 +1,67 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.quickmart.gui;
 
-public class POSFrame extends javax.swing.JFrame {
+  
 
-    private double grandTotal = 0.0;
+    public class POSFrame extends javax.swing.JFrame {
 
-    public POSFrame() {
-        initComponents();
-        setupCartTable();
-    }
+        private double grandTotal = 0.0;
 
-    private void setupCartTable() {
-        javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) tblCart.getModel();
-        dtm.setColumnIdentifiers(new String[]{"Product ID", "Barcode", "Name", "Price", "Qty", "Subtotal"});
-        dtm.setRowCount(0);
-    }
-
-    private void addItemToCart() {
-        String barcode = txtBarcode.getText().trim();
-        int inputQty = Integer.parseInt(txtQty.getText().trim());
-
-        if (barcode.isEmpty()) {
-            return;
+        public POSFrame() {
+            initComponents();
+            setupCartTable();
         }
 
-        try {
-            java.sql.Connection con = com.quickmart.db.DBConnection.getConnection();
-            String sql = "SELECT * FROM products WHERE barcode = ?";
-            java.sql.PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, barcode);
-            java.sql.ResultSet rs = pst.executeQuery();
+        private void setupCartTable() {
+            javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) tblCart.getModel();
+            dtm.setColumnIdentifiers(new String[]{"Product ID", "Barcode", "Name", "Price", "Qty", "Subtotal"});
+            dtm.setRowCount(0);
+        }
 
-            if (rs.next()) {
-                int id = rs.getInt("product_id");
-                String name = rs.getString("product_name");
-                double price = rs.getDouble("price");
-                int stock = rs.getInt("qty");
+        private void addItemToCart() {
+            String barcode = txtBarcode.getText().trim();
+            int inputQty = Integer.parseInt(txtQty.getText().trim());
 
-                if (stock < inputQty) {
-                    javax.swing.JOptionPane.showMessageDialog(this, "Insufficient stock!");
-                    return;
-                }
-
-                double subtotal = price * inputQty;
-                grandTotal += subtotal;
-
-                javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) tblCart.getModel();
-                dtm.addRow(new Object[]{id, barcode, name, price, inputQty, subtotal});
-
-                lblTotal.setText("Total: " + grandTotal);
-                txtBarcode.setText("");
-                txtBarcode.requestFocus();
-            } else {
-                javax.swing.JOptionPane.showMessageDialog(this, "Product Not Found!");
+            if (barcode.isEmpty()) {
+                return;
             }
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+
+            try {
+                java.sql.Connection con = com.quickmart.db.DBConnection.getConnection();
+                String sql = "SELECT * FROM products WHERE barcode = ?";
+                java.sql.PreparedStatement pst = con.prepareStatement(sql);
+                pst.setString(1, barcode);
+                java.sql.ResultSet rs = pst.executeQuery();
+
+                if (rs.next()) {
+                    int id = rs.getInt("product_id");
+                    String name = rs.getString("product_name");
+                    double price = rs.getDouble("price");
+                    int stock = rs.getInt("qty");
+
+                    if (stock < inputQty) {
+                        javax.swing.JOptionPane.showMessageDialog(this, "Insufficient stock!");
+                        return;
+                    }
+
+                    double subtotal = price * inputQty;
+                    grandTotal += subtotal;
+
+                    javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) tblCart.getModel();
+                    dtm.addRow(new Object[]{id, barcode, name, price, inputQty, subtotal});
+
+                    lblTotal.setText("Total: " + grandTotal);
+                    txtBarcode.setText("");
+                    txtBarcode.requestFocus();
+                } else {
+                    javax.swing.JOptionPane.showMessageDialog(this, "Product Not Found!");
+                }
+            } catch (Exception e) {
+                com.quickmart.util.AppLogger.error("Failed to add item to cart", e);
+                javax.swing.JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+            }
         }
-    }
+
+        @SuppressWarnings("unchecked")
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -233,6 +234,7 @@ public class POSFrame extends javax.swing.JFrame {
             grandTotal = 0.0;
             lblTotal.setText("Total: 0.00");
         } catch (Exception e) {
+            com.quickmart.util.AppLogger.error("Sales checkout transaction failed", e);
             javax.swing.JOptionPane.showMessageDialog(this, "Checkout Failed: " + e.getMessage());
         }
     }//GEN-LAST:event_btnCheckoutActionPerformed
@@ -243,12 +245,10 @@ public class POSFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnAddItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddItemActionPerformed
-        addItemToCart();
+            addItemToCart();
     }//GEN-LAST:event_btnAddItemActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

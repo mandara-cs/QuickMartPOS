@@ -6,6 +6,9 @@
 /dist/
 *.class
 
+# Runtime logs
+/logs/
+
 # Local environment and IDE files
 .env
 .idea/

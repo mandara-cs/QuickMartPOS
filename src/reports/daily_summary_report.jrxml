@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" 
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
+              name="daily_summary_report" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    <queryString>
+        <![CDATA[SELECT DATE(sale_date) as date_val, COUNT(sale_id) as total_sales, SUM(total_amount) as total_revenue FROM sales GROUP BY DATE(sale_date) ORDER BY date_val DESC]]>
+    </queryString>
+    <field name="date_val" class="java.sql.Date"/>
+    <field name="total_sales" class="java.lang.Long"/>
+    <field name="total_revenue" class="java.lang.Double"/>
+    <title>
+        <band height="50">
+            <staticText>
+                <reportElement x="0" y="10" width="555" height="30"/>
+                <textElement textAlignment="Center">
+                    <font size="20" isBold="true"/>
+                </textElement>
+                <text><![CDATA[QuickMart POS - Daily Financial Summary]]></text>
+            </staticText>
+        </band>
+    </title>
+    <columnHeader>
+        <band height="30">
+            <staticText>
+                <reportElement x="0" y="0" width="180" height="20"/>
+                <textElement><font isBold="true"/></textElement>
+                <text><![CDATA[Date]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="180" y="0" width="180" height="20"/>
+                <textElement><font isBold="true"/></textElement>
+                <text><![CDATA[Total Transactions]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="360" y="0" width="195" height="20"/>
+                <textElement><font isBold="true"/></textElement>
+                <text><![CDATA[Total Revenue]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="25">
+            <textField>
+                <reportElement x="0" y="0" width="180" height="20"/>
+                <textFieldExpression><![CDATA[$F{date_val}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="180" y="0" width="180" height="20"/>
+                <textFieldExpression><![CDATA[$F{total_sales}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="360" y="0" width="195" height="20"/>
+                <textFieldExpression><![CDATA[$F{total_revenue}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+</jasperReport>

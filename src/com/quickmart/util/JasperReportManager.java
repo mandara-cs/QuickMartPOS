@@ -12,23 +12,30 @@ import net.sf.jasperreports.view.JasperViewer;
 
 public class JasperReportManager {
 
-    public static void generateSalesReport() {
+    private static void launchReport(String reportPath) {
         try {
             Connection con = DBConnection.getConnection();
-            
-            // Compiles and generates dynamic report directly from database
-            String query = "SELECT sale_id, total_amount, sale_date FROM sales ORDER BY sale_id DESC";
-            
             JasperReport jasperReport = JasperCompileManager.compileReport(
-                JasperReportManager.class.getResourceAsStream("/reports/sales_report.jrxml")
+                JasperReportManager.class.getResourceAsStream(reportPath)
             );
-            
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap<>(), con);
             JasperViewer.viewReport(jasperPrint, false);
-            
+            AppLogger.info("Generated Jasper report: " + reportPath);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Report Generation Notice: Displaying SQL View (Jasper template optional)");
-            e.printStackTrace();
+            AppLogger.error("Failed to generate Jasper report: " + reportPath, e);
+            JOptionPane.showMessageDialog(null, "Error displaying report: " + e.getMessage());
         }
+    }
+
+    public static void generateSalesReport() {
+        launchReport("/reports/sales_report.jrxml");
+    }
+
+    public static void generateLowStockReport() {
+        launchReport("/reports/low_stock_report.jrxml");
+    }
+
+    public static void generateDailySummaryReport() {
+        launchReport("/reports/daily_summary_report.jrxml");
     }
 }

@@ -40,6 +40,8 @@ public class ReportFrame extends javax.swing.JFrame {
         tblReports = new javax.swing.JTable();
         btnBack = new javax.swing.JButton();
         btnPrintReport = new javax.swing.JButton();
+        btnLowStock = new javax.swing.JButton();
+        btnDailySummary = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -66,13 +68,19 @@ public class ReportFrame extends javax.swing.JFrame {
         btnPrintReport.setText("Print Sales Summary");
         btnPrintReport.addActionListener(this::btnPrintReportActionPerformed);
 
+        btnLowStock.setText("Low Stock Alert");
+        btnLowStock.addActionListener(this::btnLowStockActionPerformed);
+
+        btnDailySummary.setText("Daily Financial Summary");
+        btnDailySummary.addActionListener(this::btnDailySummaryActionPerformed);
+
         javax.swing.GroupLayout reportPanelLayout = new javax.swing.GroupLayout(reportPanel);
         reportPanel.setLayout(reportPanelLayout);
         reportPanelLayout.setHorizontalGroup(
             reportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(reportPanelLayout.createSequentialGroup()
                 .addGroup(reportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(reportPanelLayout.createSequentialGroup()
                         .addGroup(reportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(reportPanelLayout.createSequentialGroup()
@@ -82,8 +90,12 @@ public class ReportFrame extends javax.swing.JFrame {
                                 .addComponent(jLabel1))
                             .addGroup(reportPanelLayout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(btnPrintReport)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addComponent(btnPrintReport)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnLowStock)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnDailySummary)))
+                        .addGap(0, 24, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         reportPanelLayout.setVerticalGroup(
@@ -96,7 +108,10 @@ public class ReportFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnPrintReport)
+                .addGroup(reportPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPrintReport)
+                    .addComponent(btnLowStock)
+                    .addComponent(btnDailySummary))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -123,6 +138,14 @@ public class ReportFrame extends javax.swing.JFrame {
     private void btnPrintReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintReportActionPerformed
         com.quickmart.util.JasperReportManager.generateSalesReport();
     }//GEN-LAST:event_btnPrintReportActionPerformed
+
+    private void btnLowStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLowStockActionPerformed
+        com.quickmart.util.JasperReportManager.generateLowStockReport();
+    }//GEN-LAST:event_btnLowStockActionPerformed
+
+    private void btnDailySummaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDailySummaryActionPerformed
+        com.quickmart.util.JasperReportManager.generateDailySummaryReport();
+    }//GEN-LAST:event_btnDailySummaryActionPerformed
 
     /**
      * @param args the command line arguments
@@ -151,6 +174,8 @@ public class ReportFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnDailySummary;
+    private javax.swing.JButton btnLowStock;
     private javax.swing.JButton btnPrintReport;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JProgressBar jProgressBar1;
